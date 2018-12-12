@@ -36,8 +36,14 @@ def count_adverb():
     make local function 'count_from_one_file' in advance
     count them in each document by using local function 3 times and print
 
-    count_adverb()
+    count_adverb() # no argument
     >>
+    part1.txt
+    [('越发', 72), ('难道', 87), ('可巧', 47), ('不曾', 51), ('原是', 51)]
+    part2.txt
+    [('越发', 88), ('难道', 68), ('可巧', 40), ('不曾', 52), ('原是', 78)]
+    part3.txt
+    [('越发', 38), ('难道', 33), ('可巧', 1), ('不曾', 14), ('原是', 45)]
     """
 
     # local function for count adverb only in one file
@@ -52,6 +58,47 @@ def count_adverb():
         open_file.close()
         print(file_name)
         print(count_list)
+
+    count_from_one_file('part1.txt')
+    count_from_one_file('part2.txt')
+    count_from_one_file('part3.txt')
+
+
+# 1.3) count function words in 3 documents and calculate frequency
+def count_function_word():
+    """
+    count 或、亦、方、即、皆、仍、故、尚、呀、吗、咧、罢、么、呢、让、向、往、就、但、 越、再、更、很、偏
+    make local function 'count_from_one_file' in advance
+    1. count all 汉字 but not count symbol > use variable 'count_all_letter'
+    2. count ( 汉字 and function word ) > use variable 'count function word'
+    count them in each document by using local function 3 times and print
+
+    count_function_word() # no argument
+    >>
+    part1.txt
+    频率: 2.75%
+    part2.txt
+    频率: 2.49%
+    part3.txt
+    频率: 2.66%
+    """
+
+    # local function for count adverb only in one file
+    def count_from_one_file(file_name):
+        open_file = open(file_name, 'r')
+        text = open_file.read()
+        words = ['或','亦','方','即','皆','仍','故','尚','呀','吗','咧','罢','么',
+                 '呢','让','向','往','就','但','越','再','更','很','偏']
+        count_all_letter = 0 # counter for all 汉字
+        count_function_word = 0 # counter for functional word
+        for letter in text: # for loop each letter
+            if letter.isalpha() == True: # if and only if the letter is 汉字 (not count symbol)
+                count_all_letter += 1
+                if letter in words: # if the letter is 汉字 and functional word
+                    count_function_word += 1
+        open_file.close()
+        print(file_name)
+        print('频率: {}%'.format(round(count_function_word*100/count_all_letter, 2))) # calculate
 
     count_from_one_file('part1.txt')
     count_from_one_file('part2.txt')
