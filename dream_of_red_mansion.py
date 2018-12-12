@@ -1,3 +1,6 @@
+import re
+
+
 # 1.1) split the text into 3 pieces
 def split_text(file_name):
     """
@@ -10,8 +13,8 @@ def split_text(file_name):
 
     open_file = open(file_name, 'r')  # open file in read mode
     part1_file = open('part1.txt', 'w')  # make part1.txt in write mode
-    part2_file = open('part2.txt', 'w')  # make part1.txt in write mode
-    part3_file = open('part3.txt', 'w')  # make part1.txt in write mode
+    part2_file = open('part2.txt', 'w')  # make part2.txt in write mode
+    part3_file = open('part3.txt', 'w')  # make part3.txt in write mode
 
     text = open_file.read()  # read all text
 
@@ -46,7 +49,7 @@ def count_adverb():
     [('越发', 38), ('难道', 33), ('可巧', 1), ('不曾', 14), ('原是', 45)]
     """
 
-    # local function for count adverb only in one file
+    # local function for count adverb in one file
     def count_from_one_file(file_name):
         open_file = open(file_name, 'r')
         text = open_file.read()
@@ -83,22 +86,67 @@ def count_function_word():
     频率: 2.66%
     """
 
-    # local function for count adverb only in one file
+    # local function for count function word in one file
     def count_from_one_file(file_name):
         open_file = open(file_name, 'r')
         text = open_file.read()
-        words = ['或','亦','方','即','皆','仍','故','尚','呀','吗','咧','罢','么',
-                 '呢','让','向','往','就','但','越','再','更','很','偏']
-        count_all_letter = 0 # counter for all 汉字
-        count_function_word = 0 # counter for functional word
-        for letter in text: # for loop each letter
-            if letter.isalpha() == True: # if and only if the letter is 汉字 (not count symbol)
+        words = ['或', '亦', '方', '即', '皆', '仍', '故', '尚', '呀', '吗', '咧', '罢', '么',
+                 '呢', '让', '向', '往', '就', '但', '越', '再', '更', '很', '偏']
+        count_all_letter = 0  # counter for all 汉字
+        count_function_word = 0  # counter for functional word
+        for letter in text:  # for loop each letter
+            if letter.isalpha() == True:  # if and only if the letter is 汉字 (not count symbol)
                 count_all_letter += 1
-                if letter in words: # if the letter is 汉字 and functional word
+                if letter in words:  # if the letter is 汉字 and functional word
                     count_function_word += 1
         open_file.close()
         print(file_name)
-        print('频率: {}%'.format(round(count_function_word*100/count_all_letter, 2))) # calculate
+        print('频率: {}%'.format(round(count_function_word * 100 / count_all_letter, 2)))  # calculate
+
+    count_from_one_file('part1.txt')
+    count_from_one_file('part2.txt')
+    count_from_one_file('part3.txt')
+
+
+# 1.4) count average paragraph and sentence length
+def average_length():
+    """
+    count length of both paragraph and sentence and calculate average
+    1. list of paragraphs: split text with '\n'
+    2. list of sentences: split text with '．' '。' or '\n' (must use regular expression)
+    3. count length of each element in list by using len()
+        and make new list that contains only int
+        e.g. ['你好', '我爱你',...] > [2, 3,...]
+        at the same time, strip white space ' ' in head (or tail) of the sentence
+    4. calculate average: (sum of the integers in the list) / (length of the list)
+
+    average_length() # no argument
+    >>
+    part1.txt
+    平均段落长度: 235.26
+    平均句子长度: 26.34
+    part2.txt
+    平均段落长度: 343.24
+    平均句子长度: 25.84
+    part3.txt
+    平均段落长度: 420.65
+    平均句子长度: 26.57
+    """
+
+    # local function for count average length in one file
+    def count_from_one_file(file_name):
+        open_file = open(file_name, 'r')
+        text = open_file.read()
+        paragraph_list = text.splitlines()
+        sentence_list = re.split('[．。\n]', text)
+        paragraph_length = [len(paragraph.strip(' ')) for paragraph in paragraph_list]
+        sentence_length = [len(sentence.strip(' ')) for sentence in sentence_list]
+        average_paragraph = sum(paragraph_length) / len(paragraph_length)
+        average_sentence = sum(sentence_length) / len(sentence_length)
+        open_file.close()
+        print(file_name)
+        print('平均段落长度: {}'.format(round(average_paragraph, 2)))
+        print('平均句子长度: {}'.format(round(average_sentence, 2)))
 
     count_from_one_file('part1.txt')
     count_from_one_file('part2.txt')
