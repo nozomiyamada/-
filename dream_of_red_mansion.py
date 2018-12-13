@@ -13,7 +13,7 @@ def split_text():
     >> part1.txt, part2.txt, part3.txt will be output
     """
 
-    open_file = open('____.txt', 'r')  # open file in read mode
+    open_file = open('紅楼夢.txt', 'r')  # open file in read mode
     part1_file = open('part1.txt', 'w')  # make part1.txt in write mode
     part2_file = open('part2.txt', 'w')  # make part2.txt in write mode
     part3_file = open('part3.txt', 'w')  # make part3.txt in write mode
@@ -188,6 +188,28 @@ def word_pair():
         print(file_name)
         print(pair_counter.most_common(number_of_pair))  # print top 100
 
+    count_from_one_file('part1.txt')
+    count_from_one_file('part2.txt')
+    count_from_one_file('part3.txt')
+    
+    
+# 3)
+def reduplicate():
+    """
+    count top 30 reduplicate word in each file
+    """
+    
+    # local function for count average length in one file
+    def count_from_one_file(file_name):
+        open_file = open(file_name, 'r')
+        text = open_file.read()
+        word_counter = collections.Counter()  # make counter for word
+        for i, letter in enumerate(text):
+            if letter.isalpha() and text[i + 1] == letter:  # iff two letters are 汉字 and identical
+                word_counter[letter*2] += 1  # count occurrence
+        print(file_name)
+        print(word_counter.most_common(30))
+    
     count_from_one_file('part1.txt')
     count_from_one_file('part2.txt')
     count_from_one_file('part3.txt')
