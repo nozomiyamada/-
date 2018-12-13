@@ -197,18 +197,23 @@ def word_pair():
 def reduplicate():
     """
     count top 30 reduplicate word in each file
+    count 'double' and 'triple' word by using 
     """
     
     # local function for count average length in one file
     def count_from_one_file(file_name):
         open_file = open(file_name, 'r')
         text = open_file.read()
-        word_counter = collections.Counter()  # make counter for word
+        word_counter2 = collections.Counter()  # make counter for word
+        word_counter3 = collections.Counter()
         for i, letter in enumerate(text):
-            if letter.isalpha() and text[i + 1] == letter:  # iff two letters are 汉字 and identical
-                word_counter[letter*2] += 1  # count occurrence
+            if letter.isalpha() and text[i+1]==letter:  # iff two letters are 汉字 and identical
+                word_counter2[letter*2] += 1  # count occurrence
+            if letter.isalpha() and text[i+1]==letter and text[i+2]==letter:  # iff three letters are 汉字 and identical
+                word_counter3[letter*3] += 1
         print(file_name)
-        print(word_counter.most_common(30))
+        print(word_counter2.most_common(30)) # print top 30 words
+        print(word_counter3.most_common(30))
     
     count_from_one_file('part1.txt')
     count_from_one_file('part2.txt')
