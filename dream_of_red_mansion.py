@@ -108,7 +108,7 @@ def count_function_word():
                 if letter in words:  # if the letter is 汉字 and functional word
                     count_function_word += 1
         open_file.close()
-        return str('频率: {}%'.format(round(count_function_word * 100 / count_all_letter, 2)))  # calculate
+        return '频率: {}%'.format(round(count_function_word * 100 / count_all_letter, 2))  # calculate
 
     write_file = open('result.txt', 'a', encoding='utf-8')
     write_file.write('\n'+'1.3)'+'\n')
@@ -157,8 +157,8 @@ def average_length():
         average_paragraph = sum(paragraph_length) / len(paragraph_length)
         average_sentence = sum(sentence_length) / len(sentence_length)
         open_file.close()
-        result1 = str('平均段落长度: {}'.format(round(average_paragraph, 2)))
-        result2 = str('平均句子长度: {}'.format(round(average_sentence, 2)))
+        result1 = '平均段落长度: {}'.format(round(average_paragraph, 2))
+        result2 = '平均句子长度: {}'.format(round(average_sentence, 2))
         return result1 + '\n' + result2
 
     write_file = open('result.txt', 'a', encoding='utf-8')
@@ -200,8 +200,8 @@ def word_pair():
         word_list = seg.cut(text)  # segmentation (make word list)
         pair_counter = collections.Counter()  # make counter for tuple
         for i, word in enumerate(word_list):
-            if word[0].isalpha() and word_list[i + 1][0].isalpha():  # iff two words begin with 汉字
-                pair_counter[(word, word_list[i + 1])] += 1  # count occurrence
+            if word[0].isalpha() and word_list[i+1][0].isalpha():  # iff two words begin with 汉字
+                pair_counter[(word, word_list[i+1])] += 1  # count occurrence
         return str(pair_counter.most_common(number_of_pair))  # print top 100
 
     write_file = open('result.txt', 'a', encoding='utf-8')
@@ -234,12 +234,12 @@ def pos_count():
                 pos_counter[word[1]] += 1
                 word_counter += 1
             
-        v = str('动词: {}%'.format(round(pos_counter['v']*100/word_counter, 2)))
-        n = str('名词: {}%'.format(round(pos_counter['n']*100/word_counter, 2)))
-        d = str('副词: {}%'.format(round(pos_counter['d']*100/word_counter, 2)))
-        u = str('助词: {}%'.format(round(pos_counter['u']*100/word_counter, 2)))
-        r = str('代词: {}%'.format(round(pos_counter['r']*100/word_counter, 2)))
-        a = str('形容词: {}%'.format(round(pos_counter['a']*100/word_counter, 2)))
+        v = '动词: {}%'.format(round(pos_counter['v']*100/word_counter, 2))
+        n = '名词: {}%'.format(round(pos_counter['n']*100/word_counter, 2))
+        d = '副词: {}%'.format(round(pos_counter['d']*100/word_counter, 2))
+        u = '助词: {}%'.format(round(pos_counter['u']*100/word_counter, 2))
+        r = '代词: {}%'.format(round(pos_counter['r']*100/word_counter, 2))
+        a = '形容词: {}%'.format(round(pos_counter['a']*100/word_counter, 2))
         open_file.close()
         return v + '\n' + n + '\n' + d + '\n' + u + '\n' + r + '\n' + a
         
