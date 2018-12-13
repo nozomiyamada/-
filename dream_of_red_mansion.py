@@ -1,6 +1,7 @@
 import re  # for 1.4)
 import collections  # for 2)
 import pkuseg  # for 2)
+import thulac # for 3)
 
 
 # 1.1) split the text into 3 pieces
@@ -9,14 +10,14 @@ def split_text():
     open the 'Dream of Red Mansion' and split
     search the word '第一回', '第四十回', ...
 
-    split_text('dream_of_red_mansion.txt')
+    split_text('红楼梦.txt')
     >> part1.txt, part2.txt, part3.txt will be output
     """
 
-    open_file = open('紅楼夢.txt', 'r')  # open file in read mode
-    part1_file = open('part1.txt', 'w')  # make part1.txt in write mode
-    part2_file = open('part2.txt', 'w')  # make part2.txt in write mode
-    part3_file = open('part3.txt', 'w')  # make part3.txt in write mode
+    open_file = open('红楼梦.txt', 'r', encoding='utf-8')  # open file in read mode
+    part1_file = open('part1.txt', 'w', encoding='utf-8')  # make part1.txt in write mode
+    part2_file = open('part2.txt', 'w', encoding='utf-8')  # make part2.txt in write mode
+    part3_file = open('part3.txt', 'w', encoding='utf-8')  # make part3.txt in write mode
 
     text = open_file.read()  # read all text
 
@@ -53,7 +54,7 @@ def count_adverb():
 
     # local function for count adverb in one file
     def count_from_one_file(file_name):
-        open_file = open(file_name, 'r')
+        open_file = open(file_name, 'r', encoding='utf-8')
         text = open_file.read()
         adverbs = ['越发', '难道', '可巧', '不曾', '原是']  # list of adverbs
         count_list = []  # initialize list
@@ -61,12 +62,17 @@ def count_adverb():
             number = text.count(adverb)  # count the each adverb
             count_list.append((adverb, number))  # make tuple (word, number) and append to list
         open_file.close()
-        print(file_name)
-        print(count_list)
-
-    count_from_one_file('part1.txt')
-    count_from_one_file('part2.txt')
-    count_from_one_file('part3.txt')
+        return str(count_list)
+    
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('1.2)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
 
 
 # 1.3) count function words in 3 documents and calculate frequency
@@ -80,17 +86,17 @@ def count_function_word():
 
     count_function_word() # no argument
     >>
-    part1.txt
+    part1
     频率: 2.75%
-    part2.txt
+    part2
     频率: 2.49%
-    part3.txt
+    part3
     频率: 2.66%
     """
 
     # local function for count function word in one file
     def count_from_one_file(file_name):
-        open_file = open(file_name, 'r')
+        open_file = open(file_name, 'r', encoding='utf-8')
         text = open_file.read()
         words = ['或', '亦', '方', '即', '皆', '仍', '故', '尚', '呀', '吗', '咧', '罢', '么',
                  '呢', '让', '向', '往', '就', '但', '越', '再', '更', '很', '偏']
@@ -102,12 +108,17 @@ def count_function_word():
                 if letter in words:  # if the letter is 汉字 and functional word
                     count_function_word += 1
         open_file.close()
-        print(file_name)
-        print('频率: {}%'.format(round(count_function_word * 100 / count_all_letter, 2)))  # calculate
+        return str('频率: {}%'.format(round(count_function_word * 100 / count_all_letter, 2)))  # calculate
 
-    count_from_one_file('part1.txt')
-    count_from_one_file('part2.txt')
-    count_from_one_file('part3.txt')
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('\n'+'1.3)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
 
 
 # 1.4) count average paragraph and sentence length
@@ -124,13 +135,13 @@ def average_length():
 
     average_length() # no argument
     >>
-    part1.txt
+    part1
     平均段落长度: 235.26
     平均句子长度: 26.34
-    part2.txt
+    part2
     平均段落长度: 343.24
     平均句子长度: 25.84
-    part3.txt
+    part3
     平均段落长度: 420.65
     平均句子长度: 26.57
     """
@@ -146,13 +157,19 @@ def average_length():
         average_paragraph = sum(paragraph_length) / len(paragraph_length)
         average_sentence = sum(sentence_length) / len(sentence_length)
         open_file.close()
-        print(file_name)
-        print('平均段落长度: {}'.format(round(average_paragraph, 2)))
-        print('平均句子长度: {}'.format(round(average_sentence, 2)))
+        result1 = str('平均段落长度: {}'.format(round(average_paragraph, 2)))
+        result2 = str('平均句子长度: {}'.format(round(average_sentence, 2)))
+        return result1 + '\n' + result2
 
-    count_from_one_file('part1.txt')
-    count_from_one_file('part2.txt')
-    count_from_one_file('part3.txt')
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('\n'+'1.4)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
 
 
 # 2) segmentation & 2-gram (=word pair)
@@ -185,36 +202,61 @@ def word_pair():
         for i, word in enumerate(word_list):
             if word[0].isalpha() and word_list[i + 1][0].isalpha():  # iff two words begin with 汉字
                 pair_counter[(word, word_list[i + 1])] += 1  # count occurrence
-        print(file_name)
-        print(pair_counter.most_common(number_of_pair))  # print top 100
+        return str(pair_counter.most_common(number_of_pair))  # print top 100
 
-    count_from_one_file('part1.txt')
-    count_from_one_file('part2.txt')
-    count_from_one_file('part3.txt')
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('\n'+'2)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
     
     
 # 3)
-def reduplicate():
-    """
-    count top 30 reduplicate word in each file
-    count 'double' and 'triple' word by using 
-    """
     
-    # local function for count average length in one file
+def pos_count():
+    """
+    count the number of major 6 pos and calculate frequency:
+    the number of pos / the number of total words 
+    """
     def count_from_one_file(file_name):
         open_file = open(file_name, 'r')
         text = open_file.read()
-        word_counter2 = collections.Counter()  # make counter for word
-        word_counter3 = collections.Counter()
-        for i, letter in enumerate(text):
-            if letter.isalpha() and text[i+1]==letter:  # iff two letters are 汉字 and identical
-                word_counter2[letter*2] += 1  # count occurrence
-            if letter.isalpha() and text[i+1]==letter and text[i+2]==letter:  # iff three letters are 汉字 and identical
-                word_counter3[letter*3] += 1
-        print(file_name)
-        print(word_counter2.most_common(30)) # print top 30 words
-        print(word_counter3.most_common(30))
+        tagger = thulac.thulac()
+        word_list = tagger.cut(text)
+        pos_counter = collections.Counter()
+        word_counter = 0
+        for word in word_list:
+            if word[0][0].isalpha():
+                pos_counter[word[1]] += 1
+                word_counter += 1
+            
+        v = str('动词: {}%'.format(round(pos_counter['v']*100/word_counter, 2)))
+        n = str('名词: {}%'.format(round(pos_counter['n']*100/word_counter, 2)))
+        d = str('副词: {}%'.format(round(pos_counter['d']*100/word_counter, 2)))
+        u = str('助词: {}%'.format(round(pos_counter['u']*100/word_counter, 2)))
+        r = str('代词: {}%'.format(round(pos_counter['r']*100/word_counter, 2)))
+        a = str('形容词: {}%'.format(round(pos_counter['a']*100/word_counter, 2)))
+        open_file.close()
+        return v + '\n' + n + '\n' + d + '\n' + u + '\n' + r + '\n' + a
+        
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('\n'+'3)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
     
-    count_from_one_file('part1.txt')
-    count_from_one_file('part2.txt')
-    count_from_one_file('part3.txt')
+def make_result():
+    count_adverb()
+    count_function_word()
+    average_length()
+    word_pair()
+    pos_count()
+    
