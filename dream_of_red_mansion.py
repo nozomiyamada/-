@@ -1,4 +1,6 @@
-import re
+import re  # for 1.4)
+import collections  # for 2)
+import pkuseg  # for 2)
 
 
 # 1.1) split the text into 3 pieces
@@ -147,6 +149,44 @@ def average_length():
         print(file_name)
         print('平均段落长度: {}'.format(round(average_paragraph, 2)))
         print('平均句子长度: {}'.format(round(average_sentence, 2)))
+
+    count_from_one_file('part1.txt')
+    count_from_one_file('part2.txt')
+    count_from_one_file('part3.txt')
+
+
+# 2) segmentation & 2-gram (=word pair)
+def word_pair():
+    """
+    count top 100 frequent word pair
+    1. segmentation with toolkit pkuseg (method .cut())
+    2. make counter for word pair (must import collections)
+    3. counter +1 if and only if both the two words are 汉字
+    4. print top 100 word pair
+
+    word_pair()
+    >>
+    part1.txt
+    [(('笑', '道'), 837), (('袭', '人'), 371), (('听', '了'), 326)...]
+    part2.txt
+    [(('笑', '道'), 1089), (('了', '一'), 416), (('听', '了'), 397)...]
+    part3.txt
+    [(('了', '一'), 373), (('袭', '人'), 356), (('黛', '玉'), 283)...]
+    """
+    number_of_pair = 100  # search how many frequent pairs
+    seg = pkuseg.pkuseg()  # segmentation processor
+
+    # local function for count average length in one file
+    def count_from_one_file(file_name):
+        open_file = open(file_name, 'r')
+        text = open_file.read()
+        word_list = seg.cut(text)  # segmentation (make word list)
+        pair_counter = collections.Counter()  # make counter for tuple
+        for i, word in enumerate(word_list):
+            if word[0].isalpha() and word_list[i + 1][0].isalpha():  # iff two words begin with 汉字
+                pair_counter[(word, word_list[i + 1])] += 1  # count occurrence
+        print(file_name)
+        print(pair_counter.most_common(number_of_pair))  # print top 100
 
     count_from_one_file('part1.txt')
     count_from_one_file('part2.txt')
