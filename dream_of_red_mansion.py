@@ -4,7 +4,7 @@ import pkuseg  # for 2)
 
 
 # 1.1) split the text into 3 pieces
-def split_text(file_name):
+def split_text():
     """
     open the 'Dream of Red Mansion' and split
     search the word '第一回', '第四十回', ...
@@ -13,7 +13,7 @@ def split_text(file_name):
     >> part1.txt, part2.txt, part3.txt will be output
     """
 
-    open_file = open(file_name, 'r')  # open file in read mode
+    open_file = open('____.txt', 'r')  # open file in read mode
     part1_file = open('part1.txt', 'w')  # make part1.txt in write mode
     part2_file = open('part2.txt', 'w')  # make part2.txt in write mode
     part3_file = open('part3.txt', 'w')  # make part3.txt in write mode
