@@ -213,9 +213,41 @@ def word_pair():
     write_file.write('part3'+'\n')
     write_file.write(count_from_one_file('part3.txt')+'\n')
     write_file.close()
+
+# 3.1)
+def reduplicate():
+    """
+    count top 30 reduplicate word in each file
+    count 'double' and 'triple' word by using 
+    """
     
+    # local function for count average length in one file
+    def count_from_one_file(file_name):
+        open_file = open(file_name, 'r')
+        text = open_file.read()
+        word_counter2 = collections.Counter()  # make counter for word
+        word_counter3 = collections.Counter()
+        for i, letter in enumerate(text):
+            if letter.isalpha() and text[i+1]==letter:  # iff two letters are 汉字 and identical
+                word_counter2[letter*2] += 1  # count occurrence
+            if letter.isalpha() and text[i+1]==letter and text[i+2]==letter:  # iff three letters are 汉字 and identical
+                word_counter3[letter*3] += 1
+        double = str(word_counter2.most_common(30)) # top 30 words
+        triple = str(word_counter3.most_common(30))
+        return double + '\n' + triple
     
-# 3)
+    write_file = open('result.txt', 'a', encoding='utf-8')
+    write_file.write('\n'+'3.1)'+'\n')
+    write_file.write('part1'+'\n')
+    write_file.write(count_from_one_file('part1.txt')+'\n')
+    write_file.write('part2'+'\n')
+    write_file.write(count_from_one_file('part2.txt')+'\n')
+    write_file.write('part3'+'\n')
+    write_file.write(count_from_one_file('part3.txt')+'\n')
+    write_file.close()
+
+
+# 3.2)
     
 def pos_count():
     """
@@ -244,7 +276,7 @@ def pos_count():
         return v + '\n' + n + '\n' + d + '\n' + u + '\n' + r + '\n' + a
         
     write_file = open('result.txt', 'a', encoding='utf-8')
-    write_file.write('\n'+'3)'+'\n')
+    write_file.write('\n'+'3.2)'+'\n')
     write_file.write('part1'+'\n')
     write_file.write(count_from_one_file('part1.txt')+'\n')
     write_file.write('part2'+'\n')
@@ -258,5 +290,6 @@ def make_result():
     count_function_word()
     average_length()
     word_pair()
+    reduplicate()
     pos_count()
     
