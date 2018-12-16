@@ -286,10 +286,10 @@ def pos_count():
     write_file.close()
     
 def make_result():
-    count_adverb()
-    count_function_word()
-    average_length()
-    word_pair()
-    reduplicate()
-    pos_count()
+    count_adverb() #1.1)
+    count_function_word() #1.2)
+    average_length() #1.3)
+    word_pair() #2)
+    reduplicate() #3.1)
+    pos_count() #3.2)
     
